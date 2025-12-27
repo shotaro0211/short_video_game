@@ -111,7 +111,7 @@ class _EditItemsScreenState extends ConsumerState<EditItemsScreen> {
             children: [
               // Header
               Padding(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: Row(
                   children: [
                     IconButton(
@@ -124,13 +124,13 @@ class _EditItemsScreenState extends ConsumerState<EditItemsScreen> {
                         textAlign: TextAlign.center,
                         style: const TextStyle(
                           color: Colors.white,
-                          fontSize: 20,
+                          fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                       decoration: BoxDecoration(
                         color: _items.length >= 10
                             ? Colors.green.withOpacity(0.3)
@@ -142,6 +142,7 @@ class _EditItemsScreenState extends ConsumerState<EditItemsScreen> {
                         style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
+                          fontSize: 13,
                         ),
                       ),
                     ),
@@ -157,10 +158,10 @@ class _EditItemsScreenState extends ConsumerState<EditItemsScreen> {
                     Expanded(
                       child: TextField(
                         controller: _itemController,
-                        style: const TextStyle(color: Colors.white),
+                        style: const TextStyle(color: Colors.white, fontSize: 14),
                         decoration: InputDecoration(
                           hintText: 'アイテム名を入力',
-                          hintStyle: TextStyle(color: Colors.white.withOpacity(0.6)),
+                          hintStyle: TextStyle(color: Colors.white.withOpacity(0.6), fontSize: 14),
                           filled: true,
                           fillColor: Colors.white.withOpacity(0.2),
                           border: OutlineInputBorder(
@@ -168,8 +169,8 @@ class _EditItemsScreenState extends ConsumerState<EditItemsScreen> {
                             borderSide: BorderSide.none,
                           ),
                           contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 12,
+                            horizontal: 14,
+                            vertical: 10,
                           ),
                         ),
                         onSubmitted: (_) => _addItem(),
@@ -178,34 +179,31 @@ class _EditItemsScreenState extends ConsumerState<EditItemsScreen> {
                     const SizedBox(width: 8),
                     IconButton(
                       onPressed: _addItem,
-                      icon: const Icon(Icons.add_circle, color: Colors.white, size: 40),
+                      icon: const Icon(Icons.add_circle, color: Colors.white, size: 36),
                     ),
                   ],
                 ),
               ),
 
-              const SizedBox(height: 8),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                 child: Text(
                   '※ 上から順に「1位にふさわしい」順で並べてください',
                   style: TextStyle(
                     color: Colors.white.withOpacity(0.8),
-                    fontSize: 12,
+                    fontSize: 11,
                   ),
                 ),
               ),
 
-              const SizedBox(height: 8),
-
               // Items list
               Expanded(
                 child: Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 16),
-                  padding: const EdgeInsets.all(12),
+                  margin: const EdgeInsets.fromLTRB(16, 4, 16, 0),
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(24),
+                    borderRadius: BorderRadius.circular(20),
                   ),
                   child: _items.isEmpty
                       ? Center(
@@ -217,60 +215,70 @@ class _EditItemsScreenState extends ConsumerState<EditItemsScreen> {
                       : ReorderableListView.builder(
                           itemCount: _items.length,
                           onReorder: _reorderItems,
+                          proxyDecorator: (child, index, animation) {
+                            return Material(
+                              elevation: 4,
+                              borderRadius: BorderRadius.circular(8),
+                              child: child,
+                            );
+                          },
                           itemBuilder: (context, index) {
                             final item = _items[index];
                             return Container(
                               key: ValueKey(item.id),
-                              margin: const EdgeInsets.symmetric(vertical: 2),
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 12,
-                                vertical: 10,
-                              ),
+                              height: 44,
+                              margin: const EdgeInsets.symmetric(vertical: 1),
+                              padding: const EdgeInsets.symmetric(horizontal: 8),
                               decoration: BoxDecoration(
-                                color: Colors.grey.shade50,
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(color: Colors.grey.shade200),
+                                color: index < 10 ? color.withOpacity(0.05) : Colors.grey.shade50,
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(
+                                  color: index < 10 ? color.withOpacity(0.2) : Colors.grey.shade200,
+                                ),
                               ),
                               child: Row(
                                 children: [
                                   Icon(
                                     Icons.drag_handle,
                                     color: Colors.grey.shade400,
+                                    size: 20,
                                   ),
-                                  const SizedBox(width: 8),
+                                  const SizedBox(width: 6),
                                   Container(
-                                    width: 28,
-                                    height: 28,
+                                    width: 24,
+                                    height: 24,
                                     decoration: BoxDecoration(
-                                      color: color.withOpacity(0.2),
+                                      color: index < 10 ? color.withOpacity(0.2) : Colors.grey.shade300,
                                       shape: BoxShape.circle,
                                     ),
                                     child: Center(
                                       child: Text(
                                         '${index + 1}',
                                         style: TextStyle(
-                                          color: color,
+                                          color: index < 10 ? color : Colors.grey.shade600,
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 12,
+                                          fontSize: 11,
                                         ),
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 12),
+                                  const SizedBox(width: 10),
                                   Expanded(
                                     child: Text(
                                       item.name,
                                       style: const TextStyle(
-                                        fontSize: 16,
+                                        fontSize: 14,
                                         fontWeight: FontWeight.w500,
                                       ),
+                                      overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
-                                  IconButton(
-                                    onPressed: () => _removeItem(index),
-                                    icon: Icon(
+                                  GestureDetector(
+                                    onTap: () => _removeItem(index),
+                                    child: Icon(
                                       Icons.remove_circle_outline,
                                       color: Colors.red.shade400,
+                                      size: 22,
                                     ),
                                   ),
                                 ],
@@ -283,7 +291,7 @@ class _EditItemsScreenState extends ConsumerState<EditItemsScreen> {
 
               // Save button
               Padding(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(12),
                 child: SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
@@ -291,14 +299,14 @@ class _EditItemsScreenState extends ConsumerState<EditItemsScreen> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
                       foregroundColor: color,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      padding: const EdgeInsets.symmetric(vertical: 14),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(14),
                       ),
                     ),
                     child: Text(
                       _items.length >= 10 ? '保存する' : 'あと${10 - _items.length}個追加してください',
-                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                   ),
                 ),
