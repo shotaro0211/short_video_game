@@ -268,10 +268,7 @@ class _VideoRecordScreenState extends State<VideoRecordScreen> {
                 _isCameraInitialized &&
                 _cameraController != null)
               Positioned.fill(
-                child: Transform.scale(
-                  scaleX: -1, // Mirror for selfie mode
-                  child: CameraPreview(_cameraController!),
-                ),
+                child: CameraPreview(_cameraController!),
               )
             else if (!_isCameraSupported)
               Positioned.fill(
