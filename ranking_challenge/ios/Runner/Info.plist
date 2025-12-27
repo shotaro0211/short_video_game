@@ -51,5 +51,7 @@
 	<string>ランキング動画の撮影にマイクを使用します</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>撮影した動画をカメラロールに保存します</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>撮影した動画をカメラロールに保存するためにフォトライブラリにアクセスします</string>
 </dict>
 </plist>
