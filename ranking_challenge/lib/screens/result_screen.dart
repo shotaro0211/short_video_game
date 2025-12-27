@@ -20,15 +20,15 @@ class ResultScreen extends ConsumerWidget {
       final medal = i == 1
           ? '🥇'
           : i == 2
-              ? '🥈'
-              : i == 3
-                  ? '🥉'
-                  : '　';
+          ? '🥈'
+          : i == 3
+          ? '🥉'
+          : '　';
       buffer.writeln('$medal $i位: ${item?.name ?? "---"}');
     }
 
     buffer.writeln('');
-    buffer.writeln('#ランキングチャレンジ');
+    buffer.writeln('#1位はどれだ？');
     return buffer.toString();
   }
 
@@ -37,9 +37,7 @@ class ResultScreen extends ConsumerWidget {
     final gameState = ref.watch(gameProvider);
 
     if (gameState == null) {
-      return const Scaffold(
-        body: Center(child: Text('No data')),
-      );
+      return const Scaffold(body: Center(child: Text('No data')));
     }
 
     final score = gameState.calculateScore();
@@ -50,10 +48,7 @@ class ResultScreen extends ConsumerWidget {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [
-              genre.color,
-              genre.color.withOpacity(0.6),
-            ],
+            colors: [genre.color, genre.color.withOpacity(0.6)],
           ),
         ),
         child: SafeArea(
@@ -71,10 +66,7 @@ class ResultScreen extends ConsumerWidget {
               const SizedBox(height: 4),
               Text(
                 '${genre.emoji} ${genre.name}',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                ),
+                style: const TextStyle(color: Colors.white, fontSize: 16),
               ),
               const SizedBox(height: 8),
               Container(
@@ -101,7 +93,10 @@ class ResultScreen extends ConsumerWidget {
               Expanded(
                 child: Container(
                   margin: const EdgeInsets.symmetric(horizontal: 16),
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 8,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(24),
@@ -135,10 +130,10 @@ class ResultScreen extends ConsumerWidget {
                                   color: rank == 1
                                       ? const Color(0xFFFFD700)
                                       : rank == 2
-                                          ? const Color(0xFFC0C0C0)
-                                          : rank == 3
-                                              ? const Color(0xFFCD7F32)
-                                              : Colors.grey.shade400,
+                                      ? const Color(0xFFC0C0C0)
+                                      : rank == 3
+                                      ? const Color(0xFFCD7F32)
+                                      : Colors.grey.shade400,
                                   shape: BoxShape.circle,
                                 ),
                                 child: Center(
@@ -178,14 +173,18 @@ class ResultScreen extends ConsumerWidget {
 
               // Buttons
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 12,
+                ),
                 child: Row(
                   children: [
                     Expanded(
                       child: ElevatedButton.icon(
                         onPressed: () {
-                          final shareText =
-                              _generateShareText(gameState.rankings);
+                          final shareText = _generateShareText(
+                            gameState.rankings,
+                          );
                           Share.share(shareText);
                         },
                         icon: const Icon(Icons.share),

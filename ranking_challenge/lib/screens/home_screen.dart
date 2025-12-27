@@ -32,15 +32,7 @@ class HomeScreen extends ConsumerWidget {
             children: [
               const SizedBox(height: 24),
               const Text(
-                'ランキング',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const Text(
-                'チャレンジ',
+                '1位はどれだ？',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 32,

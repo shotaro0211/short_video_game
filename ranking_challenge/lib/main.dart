@@ -9,11 +9,7 @@ void main() {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  runApp(
-    const ProviderScope(
-      child: RankingChallengeApp(),
-    ),
-  );
+  runApp(const ProviderScope(child: RankingChallengeApp()));
 }
 
 class RankingChallengeApp extends StatelessWidget {
@@ -22,7 +18,7 @@ class RankingChallengeApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'ランキングチャレンジ',
+      title: '1位はどれだ？',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF667eea)),
