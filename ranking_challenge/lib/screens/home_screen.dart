@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../data/sample_data.dart';
 import '../models/genre.dart';
+import '../models/item.dart';
 import '../models/custom_genre.dart';
-import '../widgets/genre_card.dart';
 import '../providers/game_provider.dart';
 import '../providers/custom_genre_provider.dart';
 import 'game_screen.dart';
 import 'create_genre_screen.dart';
 import 'edit_items_screen.dart';
+import 'video_record_screen.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -23,10 +24,7 @@ class HomeScreen extends ConsumerWidget {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFF667eea),
-              Color(0xFF764ba2),
-            ],
+            colors: [Color(0xFF667eea), Color(0xFF764ba2)],
           ),
         ),
         child: SafeArea(
@@ -62,15 +60,26 @@ class HomeScreen extends ConsumerWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: customGenresAsync.when(
-                    data: (customGenres) => _buildGenreGrid(context, ref, customGenres),
-                    loading: () => const Center(child: CircularProgressIndicator(color: Colors.white)),
-                    error: (e, _) => Center(child: Text('Error: $e', style: const TextStyle(color: Colors.white))),
+                    data: (customGenres) =>
+                        _buildGenreGrid(context, ref, customGenres),
+                    loading: () => const Center(
+                      child: CircularProgressIndicator(color: Colors.white),
+                    ),
+                    error: (e, _) => Center(
+                      child: Text(
+                        'Error: $e',
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                    ),
                   ),
                 ),
               ),
               // Create button
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
                 child: SizedBox(
                   width: double.infinity,
                   child: ElevatedButton.icon(
@@ -112,27 +121,35 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildGenreGrid(BuildContext context, WidgetRef ref, List<CustomGenre> customGenres) {
+  Widget _buildGenreGrid(
+    BuildContext context,
+    WidgetRef ref,
+    List<CustomGenre> customGenres,
+  ) {
     final allGenres = <_GenreItem>[
       // Default genres
-      ...genres.map((g) => _GenreItem(
-            id: g.id,
-            name: g.name,
-            emoji: g.emoji,
-            color: g.color,
-            description: g.description,
-            isCustom: false,
-          )),
+      ...genres.map(
+        (g) => _GenreItem(
+          id: g.id,
+          name: g.name,
+          emoji: g.emoji,
+          color: g.color,
+          description: g.description,
+          isCustom: false,
+        ),
+      ),
       // Custom genres
-      ...customGenres.map((g) => _GenreItem(
-            id: g.id,
-            name: g.name,
-            emoji: g.emoji,
-            color: g.color,
-            description: '${g.items.length}個のアイテム',
-            isCustom: true,
-            customGenre: g,
-          )),
+      ...customGenres.map(
+        (g) => _GenreItem(
+          id: g.id,
+          name: g.name,
+          emoji: g.emoji,
+          color: g.color,
+          description: '${g.items.length}個のアイテム',
+          isCustom: true,
+          customGenre: g,
+        ),
+      ),
     ];
 
     return GridView.builder(
@@ -152,26 +169,7 @@ class HomeScreen extends ConsumerWidget {
 
   Widget _buildGenreCard(BuildContext context, WidgetRef ref, _GenreItem item) {
     return GestureDetector(
-      onTap: () {
-        if (item.isCustom && item.customGenre != null) {
-          ref.read(gameProvider.notifier).startCustomGame(item.customGenre!);
-        } else {
-          ref.read(gameProvider.notifier).startGame(item.id);
-        }
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => GameScreen(
-              genre: Genre(
-                id: item.id,
-                name: item.name,
-                emoji: item.emoji,
-                color: item.color,
-                description: item.description,
-              ),
-            ),
-          ),
-        );
-      },
+      onTap: () => _showPlayModeDialog(context, ref, item),
       onLongPress: item.isCustom
           ? () => _showCustomGenreOptions(context, ref, item.customGenre!)
           : null,
@@ -180,10 +178,7 @@ class HomeScreen extends ConsumerWidget {
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [
-              item.color,
-              item.color.withOpacity(0.7),
-            ],
+            colors: [item.color, item.color.withOpacity(0.7)],
           ),
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
@@ -201,7 +196,10 @@ class HomeScreen extends ConsumerWidget {
                 top: 8,
                 right: 8,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 6,
+                    vertical: 2,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.3),
                     borderRadius: BorderRadius.circular(8),
@@ -245,7 +243,107 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-  void _showCustomGenreOptions(BuildContext context, WidgetRef ref, CustomGenre genre) {
+  void _showPlayModeDialog(
+    BuildContext context,
+    WidgetRef ref,
+    _GenreItem item,
+  ) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Text(
+                '${item.emoji} ${item.name}',
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.play_arrow, color: item.color),
+              title: const Text('通常モード'),
+              subtitle: const Text('一人でランキングを作成'),
+              onTap: () {
+                Navigator.of(context).pop();
+                if (item.isCustom && item.customGenre != null) {
+                  ref
+                      .read(gameProvider.notifier)
+                      .startCustomGame(item.customGenre!);
+                } else {
+                  ref.read(gameProvider.notifier).startGame(item.id);
+                }
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => GameScreen(
+                      genre: Genre(
+                        id: item.id,
+                        name: item.name,
+                        emoji: item.emoji,
+                        color: item.color,
+                        description: item.description,
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.videocam, color: item.color),
+              title: const Text('撮影モード'),
+              subtitle: const Text('ショート動画を撮影しながらランキングを作成'),
+              onTap: () {
+                Navigator.of(context).pop();
+
+                // Get items for this genre
+                List<Item> items;
+                if (item.isCustom && item.customGenre != null) {
+                  items = item.customGenre!.items
+                      .map(
+                        (e) => Item(
+                          id: e.id,
+                          name: e.name,
+                          genreId: item.customGenre!.id,
+                          popularityScore: e.popularityScore,
+                        ),
+                      )
+                      .toList();
+                } else {
+                  items = itemsByGenre[item.id] ?? [];
+                }
+
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => VideoRecordScreen(
+                      genre: Genre(
+                        id: item.id,
+                        name: item.name,
+                        emoji: item.emoji,
+                        color: item.color,
+                        description: item.description,
+                      ),
+                      items: items,
+                    ),
+                  ),
+                );
+              },
+            ),
+            const SizedBox(height: 8),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _showCustomGenreOptions(
+    BuildContext context,
+    WidgetRef ref,
+    CustomGenre genre,
+  ) {
     showModalBottomSheet(
       context: context,
       builder: (context) => SafeArea(
@@ -259,7 +357,8 @@ class HomeScreen extends ConsumerWidget {
                 Navigator.of(context).pop();
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => EditItemsScreen(genre: genre, isNew: false),
+                    builder: (context) =>
+                        EditItemsScreen(genre: genre, isNew: false),
                   ),
                 );
               },
@@ -281,7 +380,10 @@ class HomeScreen extends ConsumerWidget {
                       ),
                       TextButton(
                         onPressed: () => Navigator.of(context).pop(true),
-                        child: const Text('削除', style: TextStyle(color: Colors.red)),
+                        child: const Text(
+                          '削除',
+                          style: TextStyle(color: Colors.red),
+                        ),
                       ),
                     ],
                   ),

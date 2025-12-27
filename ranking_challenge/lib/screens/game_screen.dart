@@ -68,9 +68,7 @@ class _GameScreenState extends ConsumerState<GameScreen>
     final gameState = ref.watch(gameProvider);
 
     if (gameState == null) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
     return Scaffold(
@@ -79,10 +77,7 @@ class _GameScreenState extends ConsumerState<GameScreen>
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [
-              widget.genre.color,
-              widget.genre.color.withOpacity(0.6),
-            ],
+            colors: [widget.genre.color, widget.genre.color.withOpacity(0.6)],
           ),
         ),
         child: SafeArea(
@@ -90,7 +85,10 @@ class _GameScreenState extends ConsumerState<GameScreen>
             children: [
               // Header
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
                 child: Row(
                   children: [
                     IconButton(
@@ -111,23 +109,24 @@ class _GameScreenState extends ConsumerState<GameScreen>
                         ),
                       ),
                     ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 6,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Text(
-                        '${gameState.placedCount}/10',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
+                    if (gameState.placedCount < 10)
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 6,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.2),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Text(
+                          '${gameState.placedCount + 1}/10',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                    ),
                   ],
                 ),
               ),
@@ -140,10 +139,7 @@ class _GameScreenState extends ConsumerState<GameScreen>
                     children: [
                       const Text(
                         'この人をどこに配置する？',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                        ),
+                        style: TextStyle(color: Colors.white, fontSize: 14),
                       ),
                       const SizedBox(height: 8),
                       ScaleTransition(
@@ -163,7 +159,10 @@ class _GameScreenState extends ConsumerState<GameScreen>
               Expanded(
                 child: Container(
                   margin: const EdgeInsets.symmetric(horizontal: 16),
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 8,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(24),
@@ -189,7 +188,10 @@ class _GameScreenState extends ConsumerState<GameScreen>
 
               // Hint text
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
                 child: Text(
                   '残り ${gameState.remainingItems.length + (gameState.currentItem != null ? 1 : 0)} 人',
                   style: TextStyle(

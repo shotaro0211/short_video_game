@@ -37,6 +37,11 @@ dependencies:
   flutter_riverpod: ^3.1.0
   share_plus: ^12.0.1
   shared_preferences: ^2.5.4
+  camera: ^0.11.3
+  gal: ^2.3.0
+  path_provider: ^2.1.5
+  flutter_screen_recording: ^2.0.24
+  video_player: ^2.9.3
 
 dev_dependencies:
   flutter_test:

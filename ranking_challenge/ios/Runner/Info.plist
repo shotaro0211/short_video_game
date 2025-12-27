@@ -45,5 +45,11 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>ランキング動画を撮影するためにカメラを使用します</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>ランキング動画の撮影にマイクを使用します</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>撮影した動画をカメラロールに保存します</string>
 </dict>
 </plist>

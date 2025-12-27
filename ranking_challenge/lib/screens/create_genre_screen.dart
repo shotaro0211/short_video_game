@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/custom_genre.dart';
-import '../providers/custom_genre_provider.dart';
 import 'edit_items_screen.dart';
 
 class CreateGenreScreen extends ConsumerStatefulWidget {

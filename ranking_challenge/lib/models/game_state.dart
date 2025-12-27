@@ -57,9 +57,7 @@ class GameState {
   int calculateScore() {
     // Score based on how well items are ordered by popularity
     int score = 0;
-    final placedItems = rankings.entries
-        .where((e) => e.value != null)
-        .toList()
+    final placedItems = rankings.entries.where((e) => e.value != null).toList()
       ..sort((a, b) => a.key.compareTo(b.key));
 
     if (placedItems.length < 2) return 100;
