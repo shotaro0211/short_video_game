@@ -30,21 +30,105 @@ class HomeScreen extends ConsumerWidget {
         child: SafeArea(
           child: Column(
             children: [
-              const SizedBox(height: 24),
-              const Text(
-                '1位はどれだ？',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                ),
+              const SizedBox(height: 16),
+              // Pop title with app icon
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // Decorative stars left
+                  const Text('✨', style: TextStyle(fontSize: 20)),
+                  const SizedBox(width: 8),
+                  // App icon with shadow
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.3),
+                          blurRadius: 12,
+                          offset: const Offset(0, 4),
+                        ),
+                        BoxShadow(
+                          color: Colors.white.withOpacity(0.2),
+                          blurRadius: 8,
+                          offset: const Offset(0, -2),
+                        ),
+                      ],
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(16),
+                      child: Image.asset(
+                        'assets/app_icon.png',
+                        width: 64,
+                        height: 64,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  // Decorative stars right
+                  const Text('✨', style: TextStyle(fontSize: 20)),
+                ],
+              ),
+              const SizedBox(height: 12),
+              // Title text with pop style
+              Stack(
+                children: [
+                  // Shadow layer
+                  Text(
+                    '1位はどれだ？',
+                    style: TextStyle(
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                      foreground: Paint()
+                        ..style = PaintingStyle.stroke
+                        ..strokeWidth = 6
+                        ..color = const Color(0xFF4A1A7A),
+                    ),
+                  ),
+                  // Main text with gradient
+                  ShaderMask(
+                    shaderCallback: (bounds) => const LinearGradient(
+                      colors: [
+                        Color(0xFFFFE066),
+                        Color(0xFFFFB347),
+                        Color(0xFFFF6B6B),
+                      ],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    ).createShader(bounds),
+                    child: const Text(
+                      '1位はどれだ？',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: 8),
-              Text(
-                'ジャンルを選んでランキングを作ろう！',
-                style: TextStyle(
-                  color: Colors.white.withOpacity(0.9),
-                  fontSize: 14,
+              // Subtitle with sparkle
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.15),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Text('🎯', style: TextStyle(fontSize: 14)),
+                    const SizedBox(width: 6),
+                    Text(
+                      'ジャンルを選んでランキングを作ろう！',
+                      style: TextStyle(
+                        color: Colors.white.withOpacity(0.95),
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(height: 16),
