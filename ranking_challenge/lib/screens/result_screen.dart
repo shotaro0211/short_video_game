@@ -59,28 +59,28 @@ class ResultScreen extends ConsumerWidget {
         child: SafeArea(
           child: Column(
             children: [
-              const SizedBox(height: 24),
+              const SizedBox(height: 12),
               const Text(
                 '🎉 完成！',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 32,
+                  fontSize: 28,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 4),
               Text(
                 '${genre.emoji} ${genre.name}',
                 style: const TextStyle(
                   color: Colors.white,
-                  fontSize: 20,
+                  fontSize: 16,
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 8),
               Container(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 24,
-                  vertical: 12,
+                  horizontal: 20,
+                  vertical: 8,
                 ),
                 decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.2),
@@ -90,97 +90,95 @@ class ResultScreen extends ConsumerWidget {
                   'スコア: $score 点',
                   style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 24,
+                    fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 8),
 
               // Ranking result
               Expanded(
                 child: Container(
                   margin: const EdgeInsets.symmetric(horizontal: 16),
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(24),
                   ),
-                  child: ListView.builder(
-                    itemCount: 10,
-                    itemBuilder: (context, index) {
+                  child: Column(
+                    children: List.generate(10, (index) {
                       final rank = index + 1;
                       final item = gameState.rankings[rank];
 
-                      return Container(
-                        margin: const EdgeInsets.symmetric(vertical: 4),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 10,
-                        ),
-                        decoration: BoxDecoration(
-                          color: rank <= 3
-                              ? genre.color.withOpacity(0.1)
-                              : Colors.grey.shade50,
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(
+                      return Expanded(
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(vertical: 1),
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          decoration: BoxDecoration(
                             color: rank <= 3
-                                ? genre.color.withOpacity(0.3)
-                                : Colors.grey.shade200,
+                                ? genre.color.withOpacity(0.1)
+                                : Colors.grey.shade50,
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(
+                              color: rank <= 3
+                                  ? genre.color.withOpacity(0.3)
+                                  : Colors.grey.shade200,
+                            ),
                           ),
-                        ),
-                        child: Row(
-                          children: [
-                            Container(
-                              width: 36,
-                              height: 36,
-                              decoration: BoxDecoration(
-                                color: rank == 1
-                                    ? const Color(0xFFFFD700)
-                                    : rank == 2
-                                        ? const Color(0xFFC0C0C0)
-                                        : rank == 3
-                                            ? const Color(0xFFCD7F32)
-                                            : Colors.grey.shade400,
-                                shape: BoxShape.circle,
-                              ),
-                              child: Center(
-                                child: Text(
-                                  '$rank',
-                                  style: TextStyle(
-                                    color: rank <= 3
-                                        ? Colors.white
-                                        : Colors.grey.shade700,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 36,
+                                height: 36,
+                                decoration: BoxDecoration(
+                                  color: rank == 1
+                                      ? const Color(0xFFFFD700)
+                                      : rank == 2
+                                          ? const Color(0xFFC0C0C0)
+                                          : rank == 3
+                                              ? const Color(0xFFCD7F32)
+                                              : Colors.grey.shade400,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    '$rank',
+                                    style: TextStyle(
+                                      color: rank <= 3
+                                          ? Colors.white
+                                          : Colors.grey.shade700,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                            const SizedBox(width: 12),
-                            Expanded(
-                              child: Text(
-                                item?.name ?? '---',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: rank <= 3
-                                      ? genre.color
-                                      : Colors.black87,
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: Text(
+                                  item?.name ?? '---',
+                                  style: TextStyle(
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.bold,
+                                    color: rank <= 3
+                                        ? genre.color
+                                        : Colors.black87,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       );
-                    },
+                    }),
                   ),
                 ),
               ),
 
               // Buttons
               Padding(
-                padding: const EdgeInsets.all(24),
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                 child: Row(
                   children: [
                     Expanded(
@@ -195,9 +193,9 @@ class ResultScreen extends ConsumerWidget {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white,
                           foregroundColor: genre.color,
-                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          padding: const EdgeInsets.symmetric(vertical: 12),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
+                            borderRadius: BorderRadius.circular(12),
                           ),
                         ),
                       ),
@@ -219,9 +217,9 @@ class ResultScreen extends ConsumerWidget {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white.withOpacity(0.2),
                           foregroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          padding: const EdgeInsets.symmetric(vertical: 12),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
+                            borderRadius: BorderRadius.circular(12),
                           ),
                         ),
                       ),

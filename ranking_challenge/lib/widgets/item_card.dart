@@ -21,7 +21,7 @@ class ItemCard extends StatelessWidget {
           ? (Matrix4.identity()..scale(1.05))
           : Matrix4.identity(),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
@@ -44,7 +44,7 @@ class ItemCard extends StatelessWidget {
           item.name,
           style: const TextStyle(
             color: Colors.white,
-            fontSize: 20,
+            fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
           textAlign: TextAlign.center,

@@ -32,8 +32,8 @@ class RankingSlot extends StatelessWidget {
       onTap: isEmpty ? onTap : null,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
-        margin: const EdgeInsets.symmetric(vertical: 4),
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        margin: const EdgeInsets.symmetric(vertical: 1),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
         decoration: BoxDecoration(
           color: isHighlighted
               ? themeColor.withOpacity(0.2)
@@ -80,7 +80,7 @@ class RankingSlot extends StatelessWidget {
               child: Text(
                 item?.name ?? (isHighlighted ? 'ここに配置' : '---'),
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 17,
                   fontWeight: isEmpty ? FontWeight.normal : FontWeight.bold,
                   color: isEmpty
                       ? (isHighlighted ? themeColor : Colors.grey)
@@ -91,6 +91,7 @@ class RankingSlot extends StatelessWidget {
             if (isEmpty && onTap != null)
               Icon(
                 Icons.add_circle_outline,
+                size: 28,
                 color: isHighlighted ? themeColor : Colors.grey.shade400,
               ),
           ],

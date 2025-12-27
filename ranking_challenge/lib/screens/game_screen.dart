@@ -90,7 +90,7 @@ class _GameScreenState extends ConsumerState<GameScreen>
             children: [
               // Header
               Padding(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: Row(
                   children: [
                     IconButton(
@@ -142,10 +142,10 @@ class _GameScreenState extends ConsumerState<GameScreen>
                         'この人をどこに配置する？',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 16,
+                          fontSize: 14,
                         ),
                       ),
-                      const SizedBox(height: 12),
+                      const SizedBox(height: 8),
                       ScaleTransition(
                         scale: _scaleAnimation,
                         child: ItemCard(
@@ -157,43 +157,44 @@ class _GameScreenState extends ConsumerState<GameScreen>
                   ),
                 ),
 
-              const SizedBox(height: 16),
+              const SizedBox(height: 8),
 
               // Ranking slots
               Expanded(
                 child: Container(
                   margin: const EdgeInsets.symmetric(horizontal: 16),
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(24),
                   ),
-                  child: ListView.builder(
-                    itemCount: 10,
-                    itemBuilder: (context, index) {
+                  child: Column(
+                    children: List.generate(10, (index) {
                       final rank = index + 1;
                       final isAvailable = gameState.rankings[rank] == null;
 
-                      return RankingSlot(
-                        rank: rank,
-                        item: gameState.rankings[rank],
-                        isHighlighted: highlightedSlot == rank,
-                        themeColor: widget.genre.color,
-                        onTap: isAvailable ? () => _placeItem(rank) : null,
+                      return Expanded(
+                        child: RankingSlot(
+                          rank: rank,
+                          item: gameState.rankings[rank],
+                          isHighlighted: highlightedSlot == rank,
+                          themeColor: widget.genre.color,
+                          onTap: isAvailable ? () => _placeItem(rank) : null,
+                        ),
                       );
-                    },
+                    }),
                   ),
                 ),
               ),
 
               // Hint text
               Padding(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: Text(
                   '残り ${gameState.remainingItems.length + (gameState.currentItem != null ? 1 : 0)} 人',
                   style: TextStyle(
                     color: Colors.white.withOpacity(0.9),
-                    fontSize: 14,
+                    fontSize: 12,
                   ),
                 ),
               ),
