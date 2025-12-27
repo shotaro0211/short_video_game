@@ -6,7 +6,6 @@
       "cwd": "${workspaceFolder}/ranking_challenge",
       "request": "launch",
       "type": "dart",
-      "deviceId": "macos"
     },
     {
       "name": "ranking_challenge (profile mode)",
@@ -14,7 +13,6 @@
       "request": "launch",
       "type": "dart",
       "flutterMode": "profile",
-      "deviceId": "macos"
     },
     {
       "name": "ranking_challenge (release mode)",
@@ -22,7 +20,6 @@
       "request": "launch",
       "type": "dart",
       "flutterMode": "release",
-      "deviceId": "macos"
     }
   ]
 }
